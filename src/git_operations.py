@@ -7,7 +7,8 @@ from indexer import run_indexer
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-TMP_DIR: str = os.path.join("..", "tmp")
+# TMP_DIR: str = os.path.join("..", "tmp")
+TMP_DIR: str = "tmp"
 
 def validate_repo_url(repo_url: str) -> bool:
     if repo_url.startswith("http://") or repo_url.startswith("https://") or repo_url.startswith("git@"):

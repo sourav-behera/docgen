@@ -1,6 +1,10 @@
 import cocoindex
 import logging
 import numpy as np
+import os
+import functools
+from psycopg_pool import ConnectionPool
+from pgvector.psycopg import register_vector
 from numpy.typing import NDArray
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -70,6 +74,59 @@ def code_embedding_flow(flow_builder: cocoindex.FlowBuilder, data_scope: cocoind
         ]
     )
 
+
+@functools.cache
+def connection_pool() -> ConnectionPool:
+    """
+    Get a connection pool to the database.
+    """
+    return ConnectionPool(os.environ["COCOINDEX_DATABASE_URL"])
+
+
+TOP_K = 5
+
+
+# Declaring it as a query handler, so that you can easily run queries in CocoInsight.
+@code_embedding_flow.query_handler(
+    result_fields=cocoindex.QueryHandlerResultFields(
+        embedding=["embedding"], score="score"
+    )
+)
+def search(query: str) -> cocoindex.QueryOutput:
+    # Get the table name, for the export target in the code_embedding_flow above.
+    table_name = cocoindex.utils.get_target_default_name(
+        code_embedding_flow, "code_embeddings"
+    )
+    # Evaluate the transform flow defined above with the input query, to get the embedding.
+    query_vector = code_to_embedding.eval(query)
+    # Run the query and get the results.
+    with connection_pool().connection() as conn:
+        register_vector(conn)
+        with conn.cursor() as cur:
+            cur.execute(
+                f"""
+                SELECT filename, code, embedding, embedding <=> %s AS distance, start, "end"
+                FROM {table_name} ORDER BY distance LIMIT %s
+            """,
+                (query_vector, TOP_K),
+            )
+            return cocoindex.QueryOutput(
+                query_info=cocoindex.QueryInfo(
+                    embedding=query_vector,
+                    similarity_metric=cocoindex.VectorSimilarityMetric.COSINE_SIMILARITY,
+                ),
+                results=[
+                    {
+                        "filename": row[0],
+                        "code": row[1],
+                        "embedding": row[2],
+                        "score": 1.0 - row[3],
+                        "start": row[4],
+                        "end": row[5],
+                    }
+                    for row in cur.fetchall()
+                ],
+            )
 
 def run_indexer():
     logger.info("Starting code indexing process...")
