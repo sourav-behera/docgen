@@ -5,7 +5,7 @@
 
 An AI-powered documentation generation tool that automatically analyzes code repositories and generates comprehensive technical documentation using advanced language models and semantic code analysis.
 
-## 🚀 Features
+## Features
 
 - **Automated Code Analysis**: Analyzes source code using ctags and semantic indexing with cocoindex
 - **AI-Powered Documentation**: Generates comprehensive documentation using Google's Gemini AI
@@ -15,14 +15,14 @@ An AI-powered documentation generation tool that automatically analyzes code rep
 - **Function Detection**: Automatically detects and analyzes function calls and dependencies
 - **Comprehensive Output**: Generates detailed markdown documentation with examples and best practices
 
-## 📋 Requirements
+## Requirements
 
 - Python 3.8 or higher
 - Universal ctags (for code analysis)
 - PostgreSQL with pgvector extension (for semantic indexing)
 - Google Gemini API key
 
-## 🛠️ Installation
+## Installation
 
 1. **Clone the repository:**
    ```bash
@@ -155,7 +155,7 @@ docgen/
 | `POSTGRES_USER` | Database username | No |
 | `POSTGRES_PASSWORD` | Database password | No |
 
-## 📊 Output Format
+## Output Format
 
 The generated documentation includes:
 
@@ -170,25 +170,7 @@ The generated documentation includes:
 9. **Integration Points**: System interaction patterns
 10. **Improvement Suggestions**: Recommendations for enhancement
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙋‍♂️ Support
-
-If you encounter any issues or have questions:
-
-1. Check the existing issues in the repository
-2. Create a new issue with detailed information about your problem
-3. Include relevant logs and error messages
 
 ## 🔮 Future Enhancements
 
