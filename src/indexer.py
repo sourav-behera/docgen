@@ -83,7 +83,7 @@ def connection_pool() -> ConnectionPool:
     return ConnectionPool(os.environ["COCOINDEX_DATABASE_URL"])
 
 
-TOP_K = 5
+TOP_K =2
 
 
 # Declaring it as a query handler, so that you can easily run queries in CocoInsight.

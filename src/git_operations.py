@@ -3,6 +3,7 @@ import git
 import logging
 
 from indexer import run_indexer
+from doc_generator import doc_generator
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -40,6 +41,7 @@ def clone_or_pull(repo_url: str):
             origin.pull()
             logger.info(f"Repository at {repo_path} updated with latest changes")
         run_indexer()
+        doc_generator(repo_path, os.path.join("tmp", "gameOfLife.gl", "src", "main.cpp"),"src") 
     else:
         logger.error("Aborting clone or pull due to invalid repository URL.")
         return
