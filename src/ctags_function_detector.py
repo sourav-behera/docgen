@@ -143,4 +143,4 @@ def function_detector(project_path: str, target_dir: str="src", src_file: str=""
         except Exception:
             return None
 
-print(function_detector(os.path.join("tmp", "gameOfLife.gl"), "src", os.path.join("tmp", "gameOfLife.gl", "src", "main.cpp")))
+# print(function_detector(os.path.join("tmp", "gameOfLife.gl"), "src", os.path.join("tmp", "gameOfLife.gl", "src", "main.cpp")))

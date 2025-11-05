@@ -41,7 +41,7 @@ def clone_or_pull(repo_url: str):
             origin.pull()
             logger.info(f"Repository at {repo_path} updated with latest changes")
         run_indexer()
-        doc_generator(repo_path, os.path.join("tmp", "gameOfLife.gl", "src", "main.cpp"),"src") 
+        doc_generator(repo_path, os.path.join("tmp", "Google-Meet-Transcriber", "main.py"),"") 
     else:
         logger.error("Aborting clone or pull due to invalid repository URL.")
         return
